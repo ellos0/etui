@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -O1 -Wall
 
-run: src/main
-	./src/main
+run: src/etui
+	./src/etui
 
-all: src/main.c
-	$(CC) $(CFLAGS) src/main.c -o src/main
+all: src/etui.c
+	$(CC) $(CFLAGS) src/etui.c -o src/etui
