@@ -8,6 +8,8 @@
 #include <sys/ioctl.h>
 //for getting terminal size
 
+#include "etui.h"
+
 #define CLEAR_SCREEN "\033[2J"
 #define CLEAR_LINE "\033[2K"
 
@@ -17,7 +19,7 @@
 //theres some other ansi escape codes in the program, but they aren't in one piece for easy usage.
 
 //I'm bored and there's nothing like reinventing the wheel so we're rolling the graphics library ourselves.
-//might put this in a seperate repo at some point
+
 
 struct termios original;
 
