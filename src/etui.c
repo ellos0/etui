@@ -8,7 +8,7 @@
 #include <sys/ioctl.h>
 //for getting terminal size
 
-#include "etui.h"
+#include "../include/etui.h"
 
 #define CLEAR_SCREEN "\033[2J"
 #define CLEAR_LINE "\033[2K"
@@ -75,7 +75,7 @@ void setup() {
   reset_canvas();
 }
 
-int main(int argc, char** argv) {
+int main() {
   setup();
   
   printf("hello\n");
