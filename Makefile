@@ -15,8 +15,7 @@ etui.o: src/etui.c
 
 #dynamic lib
 libetui.so: src/etui.c include/etui.h
-	$(CC) $(CFLAGS) -fPIC -shared -o bin/libetui.so src/etui.c
-	cp bin/libetui.so $(LIB_DIR)
+	$(CC) $(CFLAGS) -fPIC -shared -o $(LIB_DIR)/libetui.so src/etui.c
 
 #hello example
 hello.c: examples/hello.c
@@ -25,3 +24,4 @@ hello.c: examples/hello.c
 clean:
 	rm -rf bin
 	mkdir bin
+	rm $(LIB_DIR)/libetui.so
