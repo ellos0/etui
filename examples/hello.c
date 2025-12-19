@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "etui.h"
+#include "../include/etui.h"
 
-int main(int argc, char** argv) {
+int main() {
   setup();
   
   printf("hello\n");
