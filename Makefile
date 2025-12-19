@@ -1,13 +1,23 @@
-CC = gcc
-CFLAGS = -O1 -Wall
-LIBFLAGS = -c
+CC := gcc
+CFLAGS := -O1 -Wall -Wextra -g
 
-lib: src/etui.c
-	$(CC) $(CFLAGS) $(LIBFLAGS) src/etui.c -o bin/etui.o
-	ar rcs bin/libetui bin/etui.o
+all: src/etui.c
+	$(CC) $(CFLAGS) src/etui.c -o bin/etui
 
 run: bin/etui
 	./bin/etui
 
-all: src/etui.c
-	$(CC) $(CFLAGS) src/etui.c -o bin/etui
+etui.o: src/etui.c
+	$(CC) $(CFLAGS) -c src/etui.c -o bin/etui.o
+
+#dynamic lib
+libetui.so: src/etui.c include/etui.h
+	$(CC) $(CFLAGS) -fPIC -shared -o bin/libetui.so src/etui.c 
+
+#hello example
+hello.c: examples/hello.c
+	$(CC) $(CFLAGS) -o bin/hello examples/hello.c -Lbin -letui -Iinclude
+
+clean:
+	rm -rf bin
+	mkdir bin
