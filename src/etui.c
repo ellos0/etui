@@ -75,36 +75,52 @@ void setup() {
   reset_canvas();
 }
 
-void horizontal_line(int x, int y, int n) {
+void horizontal_line(int x, int y, int n, char c) {
   move_cursor(x,y);
   for (int i=0;i<n;i++) {
-    putc('-',stdout);
+    putc(c,stdout);
   }
   //prints - n number of times
 }
 
-void vertical_line(int x,int y, int n) {
+void vertical_line(int x, int y, int n, char c) {
   move_cursor(x,y);
   for (int i=0;i<=n;i++) {
-    putc('|', stdout);
+    putc(c, stdout);
     move_cursor(x,y+i);
   }
   //moves down and prints | n number of times
 }
 
-void box_window(Window *x) {
-  horizontal_line(x->x_pos ,x->y_pos ,x->x_scale);
-  horizontal_line(x->x_pos ,x->y_pos + x->y_scale, x->x_scale);
+void corners(Window *w, WindowStyle *s) {
+  move_cursor(w->x_pos,w->y_pos);
+  putc(s->tl, stdout); //top left corner
+  move_cursor(w->x_pos+w->x_scale, w->y_pos);
+  putc(s->tr, stdout); // top right corner
+  move_cursor(w->x_pos, w->y_pos+w->y_scale);
+  putc(s->bl, stdout); // bottom left corner
+  move_cursor(w->x_pos+w->x_scale, w->y_pos+w->y_scale);
+  putc(s->br, stdout); // bottom right corner
+}
+
+void box_lines(Window *w, WindowStyle *s) {
+  horizontal_line(w->x_pos ,w->y_pos ,w->x_scale, s->h);
+  horizontal_line(w->x_pos ,w->y_pos + w->y_scale, w->x_scale, s->h);
   //im only going to act like i know why you need to add one to the yscale for this to work
-  vertical_line(x->x_pos, x->y_pos, x->y_scale+1);
-  vertical_line(x->x_pos+x->x_scale,x->y_pos, x->y_scale+1);
+  vertical_line(w->x_pos, w->y_pos, w->y_scale+1, s->v);
+  vertical_line(w->x_pos+w->x_scale,w->y_pos, w->y_scale+1, s->v);
+}
+
+void box_window(Window *w, WindowStyle *s) {
+  box_lines(w, s);
+  corners(w, s);
 }
 
 int main() {
   setup();
 
   Window w = {1,1,4,8};
-  box_window(&w);
+  box_window(&w, &default_win_style);
   
   fgetc(stdin);
   
