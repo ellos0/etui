@@ -122,7 +122,7 @@ int main() {
   Window w = {1,1,4,8};
   box_window(&w, &default_win_style);
   
-  fgetc(stdin);
+  getc(stdin);
   
   return 0;
 }
