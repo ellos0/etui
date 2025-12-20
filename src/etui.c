@@ -32,7 +32,7 @@ void restore_cursor() {
 }
 
 void move_cursor(int x, int y) {
-  printf("\033[%d;%dH", x, y);
+  printf("\033[%d;%dH", y, x);
 }
 
 void clear_screen() {
@@ -45,8 +45,8 @@ void reset_canvas() {
   move_cursor(0,0);
 }
 
-void reset_raw_mode(struct termios *original) {
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, original);
+void set_termios(struct termios *x) {
+  tcsetattr(STDIN_FILENO, TCSAFLUSH, x);
 }
 
 void enable_raw_mode() {
@@ -58,11 +58,11 @@ void enable_raw_mode() {
   raw.c_cc[VMIN] = 1; //make it so it can read 1 or more chars
   raw.c_cc[VTIME] = 0; // no timeout for reading
 
-  tcsetattr(STDIN_FILENO, TCSAFLUSH, &raw);
+  set_termios(&raw);
 }
 
 void clean_up() {
-  reset_raw_mode(&original);
+  set_termios(&original);
   reset_canvas();
 }
 
@@ -75,10 +75,36 @@ void setup() {
   reset_canvas();
 }
 
+void horizontal_line(int x, int y, int n) {
+  move_cursor(x,y);
+  for (int i=0;i<n;i++) {
+    putc('-',stdout);
+  }
+  //prints - n number of times
+}
+
+void vertical_line(int x,int y, int n) {
+  move_cursor(x,y);
+  for (int i=0;i<=n;i++) {
+    putc('|', stdout);
+    move_cursor(x,y+i);
+  }
+  //moves down and prints | n number of times
+}
+
+void box_window(Window *x) {
+  horizontal_line(x->x_pos ,x->y_pos ,x->x_scale);
+  horizontal_line(x->x_pos ,x->y_pos + x->y_scale, x->x_scale);
+  //im only going to act like i know why you need to add one to the yscale for this to work
+  vertical_line(x->x_pos, x->y_pos, x->y_scale+1);
+  vertical_line(x->x_pos+x->x_scale,x->y_pos, x->y_scale+1);
+}
+
 int main() {
   setup();
-  
-  printf("hello\n");
+
+  Window w = {1,1,4,8};
+  box_window(&w);
   
   fgetc(stdin);
   

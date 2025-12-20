@@ -1,6 +1,13 @@
 #ifndef ETUI_H
 #define ETUI_H
 
+typedef struct {
+  int x_pos;
+  int y_pos;
+  int x_scale;
+  int y_scale;
+} Window;
+
 void save_cursor();
 void restore_cursor();
 void move_cursor(int x, int y);
