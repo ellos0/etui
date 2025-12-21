@@ -8,7 +8,7 @@ int main() {
   
   printf("hello\n");
   
-  getc(stdio);
+  getc(stdin);
   
   return 0;
 }
