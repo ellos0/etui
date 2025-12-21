@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include <string.h>
+
 #include <unistd.h>
 #include <termios.h>
 //for raw mode
@@ -116,11 +118,53 @@ void box_window(Window *w, WindowStyle *s) {
   corners(w, s);
 }
 
+void w_move_cursor(Window *w, int x, int y) {
+  move_cursor(w->x_pos + x,w->y_pos + y);
+}
+
+void w_place_wrap_text(Window *w, int x, int y, char* text) {
+  w_move_cursor(w,x,y);
+  int ci = 0; //character increment
+  int ix = x; //ch x
+  int iy = y; //ch y
+  while (ci < strlen(text)) {
+    if (ix >= w->x_scale) {
+      iy++;
+      ix = 1;
+    }
+    w_move_cursor(w,ix,iy);
+    putc(text[ci], stdout);
+    ix++;
+    ci++;
+  }
+}
+
+void w_place_wrap_text_rectangle(Window *w, int x, int y, char* text) {
+  w_move_cursor(w,x,y);
+  int ci = 0;
+  int ix = x;
+  int iy = y;
+  while (ci < strlen(text)) {
+    if (ix >= w->x_scale) {
+      iy++;
+      ix = x; // important part
+    }
+    w_move_cursor(w,ix,iy);
+    putc(text[ci], stdout);
+    ix++;
+    ci++;
+  }
+}
+
 int main() {
   setup();
 
-  Window w = {1,1,4,8};
+  Window w = {2,2,20,8};
   box_window(&w, &default_win_style);
+  w_move_cursor(&w,1,0);
+  puts("test 1 2 3");
+
+  w_place_wrap_text(&w,4,1, "Hello, world! testing 1 2 3 4 5 6 7 8 9 10");
   
   getc(stdin);
   
