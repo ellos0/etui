@@ -22,7 +22,7 @@ void vertical_line(int x, int y, int n, char c) {
   //moves down and prints | n number of times
 }
 
-void corners(Window *w, WindowStyle *s) {
+void corners(Window *w, Window_Style *s) {
   move_cursor(w->x_pos,w->y_pos);
   putc(s->tl, stdout); //top left corner
   move_cursor(w->x_pos+w->x_scale, w->y_pos);
@@ -33,7 +33,7 @@ void corners(Window *w, WindowStyle *s) {
   putc(s->br, stdout); // bottom right corner
 }
 
-void box_lines(Window *w, WindowStyle *s) {
+void box_lines(Window *w, Window_Style *s) {
   horizontal_line(w->x_pos ,w->y_pos ,w->x_scale, s->h);
   horizontal_line(w->x_pos ,w->y_pos + w->y_scale, w->x_scale, s->h);
   //im only going to act like i know why you need to add one to the yscale for this to work
@@ -41,7 +41,7 @@ void box_lines(Window *w, WindowStyle *s) {
   vertical_line(w->x_pos+w->x_scale,w->y_pos, w->y_scale+1, s->v);
 }
 
-void box_window(Window *w, WindowStyle *s) {
+void box_window(Window *w, Window_Style *s) {
   box_lines(w, s);
   corners(w, s);
 }
