@@ -2,24 +2,20 @@ CC := gcc
 CFLAGS := -O1 -Wall -Wextra -g
 LIB_DIR := $(HOME)/lib
 
+SRC := src/etui.c src/window.c
+
 .PHONY: clean
 
-all: src/etui.c
-	$(CC) $(CFLAGS) src/etui.c -o bin/etui
-
-run: bin/etui
-	./bin/etui
-
-etui.o: src/etui.c
-	$(CC) $(CFLAGS) -c -o bin/etui.o src/etui.c
+all: $(LIB_DIR)/libetui.so
 
 #dynamic lib
-libetui.so: src/etui.c include/etui.h
-	$(CC) $(CFLAGS) -fPIC -shared -o $(LIB_DIR)/libetui.so src/etui.c
+$(LIB_DIR)/libetui.so:
+	$(CC) $(CFLAGS) -fPIC -shared -o $(LIB_DIR)/libetui.so $(SRC)
 
-#hello example
-hello.c: examples/hello.c
-	$(CC) $(CFLAGS) -o bin/hello examples/hello.c -L$(LIB_DIR) -letui -Iinclude
+eg: bin/hello
+
+bin/hello: eg/hello.c $(LIB_DIR)/libetui.so
+	$(CC) $(CFLAGS) -o bin/hello eg/hello.c -L$(LIB_DIR) -letui -Iinclude
 
 clean:
 	rm -rf bin
