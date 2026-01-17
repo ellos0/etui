@@ -1,0 +1,28 @@
+This is the install instruction file for ETUI. Please first refer to the README if you haven't already.
+
+-- Make --
+
+To install the library, you can just do:
+make
+
+or
+
+make all
+
+This will install the shared library into ~/lib. The install directory will most likely be updated at a point to allow one to input where to put the shared library file, and otherwise will have a default, however, this has not yet been implemented.
+
+To test the library, and that you have it correctly installed, you may run:
+make eg
+
+and subsequently
+
+bin/hello
+
+This will test the basic functionality of ETUI and give you a test window with some text in it.
+There will at a point most likely be more example programmes which may or may not be listed and prescribed here.
+
+Lastly, to uninstall everything created by ETUI, you can simply run
+
+make clean
+
+This will clear the entire binary directory, deleting all the generated executables, shared libraries, and any other records which could happen to be saved in the bin directory. This will additionally clear the ~/lib directory, or wherever the shared library would happen to be installed.
